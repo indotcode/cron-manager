@@ -2,7 +2,9 @@
 
 ![Календарь Laravel](https://raw.githubusercontent.com/indotcode/cron-manager/main/screenshots/logo.png "Орк")
 
-## Документация
+[//]: # (## Документация)
 
-- [Релиз 1.0.4](https://github.com/indotcode/calendar/tree/master/docs/1.0.4)
-- [Релиз 1.0.3](https://github.com/indotcode/calendar/tree/master/docs/1.0.3)
+[//]: # ()
+[//]: # (- [Релиз 1.0.4]&#40;https://github.com/indotcode/calendar/tree/master/docs/1.0.4&#41;)
+
+[//]: # (- [Релиз 1.0.3]&#40;https://github.com/indotcode/calendar/tree/master/docs/1.0.3&#41;)
