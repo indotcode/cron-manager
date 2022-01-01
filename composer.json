@@ -1,0 +1,21 @@
+{
+    "name": "indotcode/cron-manager",
+    "description": "Пакет Cron менеджера на Laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "indotcode",
+            "email": "tinarskiy@bk.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "keywords": ["Laravel", "Cron", "Manager"],
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Indotcode\\CronManager\\": "src/"
+        }
+    }
+}
