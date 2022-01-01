@@ -1,1 +1,1 @@
-<link rel="stylesheet" type="text/css" href="{{ asset('calendar/css/app.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('cron-manager/css/app.css') }}" />

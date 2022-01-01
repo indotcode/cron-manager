@@ -4,7 +4,7 @@ namespace Indotcode\Calendar;
 
 use Illuminate\Support\ServiceProvider;
 
-class CalendarServiceProvider extends ServiceProvider
+class CronManagerServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
