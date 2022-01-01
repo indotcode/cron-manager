@@ -1,6 +1,6 @@
 # Крон менеджер Laravel
 
-![Календарь Laravel](https://raw.githubusercontent.com/indotcode/cron-manager/master/screenshots/logo.png "Орк")
+![Календарь Laravel](https://raw.githubusercontent.com/indotcode/cron-manager/main/screenshots/logo.png "Орк")
 
 ## Документация
 
