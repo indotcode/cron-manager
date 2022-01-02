@@ -21,5 +21,9 @@ module.exports = {
             '7xl': '5rem',
         }
     },
-    plugins: [],
+    plugins: [
+        require("@tailwindcss/forms")({
+            strategy: 'class',
+        })
+    ],
 }

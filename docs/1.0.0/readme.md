@@ -11,3 +11,7 @@ Indotcode\CronManager\CronManagerServiceProvider::class;
 ```text
 php artisan vendor:publish --provider="Indotcode\CronManager\CronManagerServiceProvider"
 ```
+## Добавить таблицу в БД
+```text
+php artisan migrate
+```

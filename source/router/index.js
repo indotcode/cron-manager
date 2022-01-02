@@ -1,10 +1,8 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import PageHome from "./../page/Home"
 import PageOptions from "./../page/Options"
+import PageEventInsert from "./../page/Event/Insert"
 
-// 2. Define some routes
-// Each route should map to a component.
-// We'll talk about nested routes later.
 const routes = [
     {
         path: '/',
@@ -13,6 +11,10 @@ const routes = [
     {
         path: '/options',
         component: PageOptions
+    },
+    {
+        path: '/event/insert',
+        component: PageEventInsert
     }
 ]
 

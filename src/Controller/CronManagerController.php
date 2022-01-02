@@ -4,30 +4,43 @@ namespace Indotcode\CronManager\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Indotcode\Calendar\App\Data;
+use Indotcode\CronManager\Interfaces\CronManagerControllerInterfaces;
+use Indotcode\CronManager\Models\CronManagerEvent;
 
-class CronManagerController extends Controller
+abstract class CronManagerController extends Controller implements CronManagerControllerInterfaces
 {
-    public function list(Request $request): string
+    public function select(): object
     {
-        return '123';
-//        $data = array();
-//        $config = \GuzzleHttp\json_decode($request->post('option'), true);
-//        $config = (array)$config;
-//        $config['year'] = $request->post('year');
-//        $config['months'] = $request->post('months');
-//        $calendar = new Data();
-//        $result = $calendar->setCurrentDate()->setConfig($config)->get();
-//        switch ($name){
-//            case 'view':
-//                echo view('calendar::item', ['calendar' => $result]);
-//                break;
-//            case 'params':
-//                $data['navigation'] = $result->getNavigation();
-//                $data['current_year'] = $result->getConfigKey('year');
-//                $data['current_months'] = $result->getMonthsWeekId($result->getConfigKey('months'))['name'];
-//                echo \GuzzleHttp\json_encode($data);
-//                break;
-//        }
+        $data = CronManagerEvent::orderBy('id', 'desc')->get();
+        return response()->json($data,200);
+    }
+
+    public function insert(Request $request): object
+    {
+        $event = new CronManagerEvent();
+        foreach ($request->post() as $key => $val){
+            $event->$key = $val;
+        }
+        $event->save();
+        return response($event,200);
+    }
+
+    public function update(Request $request, int $id): object
+    {
+        $event = CronManagerEvent::find($id);
+        foreach ($request->post() as $key => $val){
+            $event->$key = $val;
+        }
+        $event->save();
+        return response($event,200);
+    }
+
+    public function delete(Request $request, int $id): object
+    {
+        $event = CronManagerEvent::find($id);
+        if($event !== ''){
+            CronManagerEvent::destroy($id);
+        }
+        return response($event,200);
     }
 }

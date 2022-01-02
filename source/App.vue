@@ -21,7 +21,7 @@ export default {
             menu: [
                 {
                     id: 1,
-                    name: 'Список задач',
+                    name: 'Список заданий',
                     to: '/'
                 },
                 {
