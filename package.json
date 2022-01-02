@@ -12,7 +12,6 @@
   "license": "ISC",
   "devDependencies": {
     "@vue/compiler-sfc": "^3.2.26",
-    "@vue/devtools": "^5.3.4",
     "laravel-mix": "^6.0.39",
     "resolve-url-loader": "^4.0.0",
     "sass": "^1.45.2",
