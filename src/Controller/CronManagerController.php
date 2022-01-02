@@ -11,8 +11,14 @@ abstract class CronManagerController extends Controller implements CronManagerCo
 {
     public function select(): object
     {
-        $data = CronManagerEvent::orderBy('id', 'desc')->get();
-        return response()->json($data,200);
+        $event = CronManagerEvent::orderBy('id', 'desc')->get();
+        return response()->json($event,200);
+    }
+
+    public function find(Request $request, int $id): object
+    {
+        $event = CronManagerEvent::find($id);
+        return response()->json($event,200);
     }
 
     public function insert(Request $request): object

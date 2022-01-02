@@ -2,11 +2,14 @@
     <div>
         <div class="flex flex-row mb-2 justify-between content-center flex-wrap">
             <div class="mb-3 flex flex-row content-center flex-wrap">
-                <h2 class="text-2xl text-gray-800 font-bold">Добавление cron задачи</h2>
-                <Crumbs :items="[{to: '/', name: 'Список заданий'}, {name: 'Добавление задачи'}]"/>
+                <h2 class="text-2xl text-gray-800 font-bold">Измене́ние cron задачи</h2>
+                <Crumbs :items="[{to: '/', name: 'Список заданий'}, {name: 'Изменить задание'}]"/>
             </div>
         </div>
         <div>
+            <div v-on:click="messages = ''" class="text-blue-600 mb-3 cursor-pointer" v-if="messages !== ''">
+                {{messages}}
+            </div>
             <form action="">
                 <label class="block mb-3">
                     <span class="text-gray-800 font-bold">Название</span>
@@ -42,13 +45,14 @@ import useVuelidate from '@vuelidate/core'
 import { required, minValue, maxValue, numeric } from '@vuelidate/validators'
 import Crumbs from './../../components/Crumbs'
 export default {
-    name: 'PageEventInsert',
+    name: 'PageEventUpdate',
     components: {Crumbs},
     setup () {
         return { valid: useVuelidate() }
     },
     data: () => {
         return {
+            messages: '',
             name: '',
             event: '',
             time: 1
@@ -64,16 +68,22 @@ export default {
             }
         }
     },
+    async mounted(){
+        const response = await this.axios.post('/cron-manager/api/event/find/'+this.$route.params.id)
+        this.name = response.data.name
+        this.event = response.data.event
+        this.time = response.data.time
+    },
     methods: {
         async submit () {
             const result = await this.valid.$validate()
             if (result) {
-                await this.axios.post('/cron-manager/api/event/insert', {
+                await this.axios.post('/cron-manager/api/event/update/'+this.$route.params.id, {
                     name: this.name,
                     event: this.event,
                     time: this.time
                 });
-                await this.$router.push('/')
+                this.messages = 'Задание успешно сохранено.'
             }
         }
     }
