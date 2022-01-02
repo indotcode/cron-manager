@@ -1,6 +1,6 @@
 <?php
 
-namespace Indotcode\Calendar;
+namespace Indotcode\CronManager;
 
 use Illuminate\Support\ServiceProvider;
 

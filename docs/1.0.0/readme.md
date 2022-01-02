@@ -1,5 +1,13 @@
-# Крон менеджер Laravel
+# Документация (Релиз 1.0.0)
 
-![Календарь Laravel](https://github.com/indotcode/cron-manager/blob/main/screenshots/logo.png?raw=true "Орк")
+## Подключения
 
-## Документация (Релиз 1.0.0)
+**Файл:** config/app.php
+```php
+Indotcode\CronManager\CronManagerServiceProvider::class;
+```
+
+## Импорт ресурсов
+```text
+php artisan vendor:publish --provider="Indotcode\CronManager\CronManagerServiceProvider"
+```
