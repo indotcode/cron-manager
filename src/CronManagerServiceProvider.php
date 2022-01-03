@@ -2,6 +2,7 @@
 
 namespace Indotcode\CronManager;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
 class CronManagerServiceProvider extends ServiceProvider
@@ -29,5 +30,13 @@ class CronManagerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../assets' => public_path('cron-manager')
         ], 'public');
+
+        $schedule_path = app()->basePath() . '/app/Console/CronManager';
+        if(!File::exists($schedule_path)){
+            $this->publishes([
+                __DIR__.'/../console/CronManager' => $schedule_path,
+            ]);
+        }
+
     }
 }

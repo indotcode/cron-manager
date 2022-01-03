@@ -27,7 +27,7 @@ export default {
                 {
                     id: 2,
                     name: 'Настройки',
-                    to: '/options'
+                    to: '/option'
                 }
             ]
         }

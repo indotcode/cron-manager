@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 interface CronManagerControllerInterfaces
 {
-    public function select(): object;
+    public function select(Request $request): object;
 
     public function find(Request $request, int $id): object;
 

@@ -11,7 +11,11 @@ Indotcode\CronManager\CronManagerServiceProvider::class;
 ```text
 php artisan vendor:publish --provider="Indotcode\CronManager\CronManagerServiceProvider"
 ```
-## Добавить таблицу в БД
+## Добавить таблицы пакета в БД
 ```text
 php artisan migrate
+```
+## Загрузим начальные данные настроек
+```text
+php artisan db:seed --class="Indotcode\CronManager\Seeders\OptionSeeder"
 ```

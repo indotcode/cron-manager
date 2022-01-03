@@ -3,12 +3,12 @@
 namespace Indotcode\CronManager\Controller\Api;
 
 use Indotcode\CronManager\Controller\CronManagerController;
-use Indotcode\CronManager\Models\CronManagerEvent;
+use Indotcode\CronManager\Models\CronManagerOption;
 
-class CronManagerEventController extends CronManagerController
+class CronManagerOptionController extends CronManagerController
 {
     public function __construct()
     {
-        $this->model = new CronManagerEvent();
+        $this->model = new CronManagerOption();
     }
 }
