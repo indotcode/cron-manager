@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
     name: 'App',
     data: () => {
@@ -31,6 +32,12 @@ export default {
                 }
             ]
         }
+    },
+    async mounted(){
+        await this.eventFileAction()
+    },
+    methods: {
+        ...mapActions(['eventFileAction'])
     },
     watch: {
         '$route' (to, from) {

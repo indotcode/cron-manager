@@ -22,6 +22,6 @@ Route::prefix('cron-manager/api')->name('cron.manager')->group(function () {
     });
 
     Route::prefix('/resource')->name('.resource')->group(function () {
-        Route::post('/event-list', [CronManagerResourceController::class, 'eventList'])->name('.event.list');
+        Route::get('/event-list', [CronManagerResourceController::class, 'eventList'])->name('.event.list');
     });
 });
