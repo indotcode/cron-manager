@@ -90,6 +90,7 @@ export default {
     methods: {
         ...mapActions(['eventFileAction', 'eventOptionAction']),
         async submit () {
+            // console.log(this.v);
             const result = await this.v.$validate()
             if (result) {
                 await this.axios.post('/api/cron-manager/event/insert', {
