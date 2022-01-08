@@ -17,7 +17,12 @@ class CreateCronManagerEventTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('event');
-            $table->integer('time');
+            $table->boolean('active')->default(false);
+            $table->string('periodicity');
+            $table->longText('periodicity_value')->nullable();
+            $table->string('restrictions')->nullable();
+            $table->longText('restrictions_value')->nullable();
+            $table->string('timezone')->nullable();
             $table->timestamps();
         });
     }

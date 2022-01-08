@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions} from "vuex";
+
 export default {
     name: 'App',
     data: () => {
@@ -33,11 +34,11 @@ export default {
             ]
         }
     },
-    async mounted(){
-        await this.eventFileAction()
+    mounted() {
+        this.planningAction()
     },
     methods: {
-        ...mapActions(['eventFileAction'])
+        ...mapActions(['planningAction']),
     },
     watch: {
         '$route' (to, from) {

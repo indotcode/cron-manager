@@ -4,7 +4,7 @@ use Indotcode\CronManager\Controller\Api\CronManagerEventController;
 use Indotcode\CronManager\Controller\Api\CronManagerOptionController;
 use Indotcode\CronManager\Controller\Api\CronManagerResourceController;
 
-Route::prefix('cron-manager/api')->name('cron.manager')->group(function () {
+Route::prefix('api/cron-manager')->name('cron.manager')->group(function () {
     Route::prefix('/event')->name('.event')->group(function () {
         Route::post('/select', [CronManagerEventController::class, 'select'])->name('.select');
         Route::post('/insert', [CronManagerEventController::class, 'insert'])->name('.insert');;
@@ -23,5 +23,6 @@ Route::prefix('cron-manager/api')->name('cron.manager')->group(function () {
 
     Route::prefix('/resource')->name('.resource')->group(function () {
         Route::get('/event-list', [CronManagerResourceController::class, 'eventList'])->name('.event.list');
+        Route::get('/planning', [CronManagerResourceController::class, 'planning'])->name('.event.planning');
     });
 });

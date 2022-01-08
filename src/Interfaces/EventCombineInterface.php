@@ -2,7 +2,7 @@
 
 namespace Indotcode\CronManager\Interfaces;
 
-interface CombineCronTasksInterface
+interface EventCombineInterface
 {
     public function launch() : void;
 }

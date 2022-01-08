@@ -11,7 +11,11 @@ class OptionSeeder extends Seeder
         [
             'key' => 'path_schedule',
             'value' => 'app/Console/CronManager'
-        ]
+        ],
+        [
+            'key' => 'namespace',
+            'value' => 'App\Console\CronManager'
+        ],
     ];
 
     public function run()

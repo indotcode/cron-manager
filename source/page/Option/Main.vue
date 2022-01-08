@@ -20,10 +20,17 @@
                     </div>
                     <form action="">
                         <label class="block mb-3">
-                            <span class="text-gray-800 font-bold">Путь до папки с заданиями <span class="text-red-600">*</span></span>
+                            <span class="text-gray-800 font-bold">Путь до файлов заданий <span class="text-red-600">*</span></span>
                             <input v-model="form.path_schedule" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <div class="text-sm text-red-500" v-if="valid.form.path_schedule.$error">
-                                Путь до папки с заданиями обязательно для заполнения
+                            <div class="text-sm text-red-500" v-if="v.form.path_schedule.$error">
+                                Путь до файлов заданий обязательно для заполнения
+                            </div>
+                        </label>
+                        <label class="block mb-3">
+                            <span class="text-gray-800 font-bold">Пространство имен файлов заданий <span class="text-red-600">*</span></span>
+                            <input v-model="form.namespace" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <div class="text-sm text-red-500" v-if="v.form.namespace.$error">
+                                Пространство имен файлов заданий обязательно для заполнения
                             </div>
                         </label>
                         <div class="mt-4">
@@ -43,7 +50,7 @@ import {required} from "@vuelidate/validators";
 export default {
     name: 'PageOptionMain',
     setup () {
-        return { valid: useVuelidate() }
+        return { v: useVuelidate() }
     },
     data: () => {
         return {
@@ -56,21 +63,24 @@ export default {
             ],
             messages: '',
             form: {
-                path_schedule: ''
+                path_schedule: '',
+                namespace: ''
             }
         }
     },
     validations () {
         return {
             form: {
-                path_schedule: { required }
+                path_schedule: { required },
+                namespace: { required }
             }
         }
     },
     async mounted() {
         this.initClassLink(this.$route.path)
-        const response = await this.axios.post('/cron-manager/api/option/select')
+        const response = await this.axios.post('/api/cron-manager/option/select')
         this.form.path_schedule = response.data.find(v => v.key === 'path_schedule').value
+        this.form.namespace = response.data.find(v => v.key === 'namespace').value
     },
     watch: {
         '$route' (to, from) {
@@ -85,14 +95,14 @@ export default {
             })
         },
         async submit () {
-            const result = await this.valid.$validate()
+            const result = await this.v.$validate()
             if (result) {
-                const response = await this.axios.post('/cron-manager/api/option/select');
+                const response = await this.axios.post('/api/cron-manager/option/select');
                 const option = response.data;
                 for(let key in this.form){
                     let value = this.form[key]
                     let id = option.find(v => v.key === key).id;
-                    await this.axios.post('/cron-manager/api/option/update/'+id, {
+                    await this.axios.post('/api/cron-manager/option/update/'+id, {
                         value: value
                     });
                 }

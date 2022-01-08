@@ -36,7 +36,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     if(to.name === 'PageEventUpdate'){
-        const response = await axios.post('/cron-manager/api/event/find/'+to.params.id)
+        const response = await axios.post('/api/cron-manager/event/find/'+to.params.id)
         if(!('name' in response.data)){
             next({ name: 'PageHome' })
         }

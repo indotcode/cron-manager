@@ -8,5 +8,5 @@ class CronManagerEvent extends Model
 {
     protected $table = 'cron_manager_event';
 
-    protected $fillable = ['name', 'event', 'time'];
+    protected $fillable = ['name', 'event', 'periodicity'];
 }

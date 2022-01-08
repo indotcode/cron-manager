@@ -13,22 +13,31 @@
             <form action="">
                 <label class="block mb-3">
                     <span class="text-gray-800 font-bold">Название <span class="text-red-600">*</span></span>
-                    <input v-model="name" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <div class="text-sm text-red-500" v-if="valid.name.$error">
-                        Название обязательно для заполнения
+                    <input v-model="name" @blur="v.name.$commit" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <div class="text-sm text-red-500" v-for="error of v.name.$errors" :key="error.$uid">
+                        <template v-if="error.$validator === 'required'">
+                            Название обязательно для заполнения
+                        </template>
+                        <template v-if="error.$validator === 'maxLength'">
+                            Максимальное число символов в поле {{error.$params.max}}
+                        </template>
                     </div>
                 </label>
                 <label class="block mb-3">
                     <span class="text-gray-800 font-bold">Event файл <span class="text-red-600">*</span></span>
-                    <input v-model="event" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <span class="text-sm text-red-500" v-if="valid.event.$error">
+                    <div class="text-sm text-slate-400">Путь к файлу: {{getOption.path_schedule}}</div>
+                    <select v-model="event" class="form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <option selected disabled hidden value="">Выберите файл</option>
+                        <option v-for="(file, id) in getEventFile" :key="id" :value="file">{{file}}</option>
+                    </select>
+                    <span class="text-sm text-red-500" v-if="v.event.$error">
                         Event обязательно для заполнения
                     </span>
                 </label>
                 <label class="block">
                     <span class="text-gray-800 font-bold">Время (сек) <span class="text-red-600">*</span></span>
                     <input v-model="time" type="number" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <span class="text-sm text-red-500" v-if="valid.time.$error">
+                    <span class="text-sm text-red-500" v-if="v.time.$error">
                         Время обязательно для заполнения
                     </span>
                 </label>
@@ -42,13 +51,14 @@
 
 <script>
 import useVuelidate from '@vuelidate/core'
-import { required, minValue, maxValue, numeric } from '@vuelidate/validators'
+import { required, maxLength, numeric } from '@vuelidate/validators'
+import { mapActions, mapGetters } from 'vuex'
 import Crumbs from './../../components/Crumbs'
 export default {
     name: 'PageEventUpdate',
     components: {Crumbs},
     setup () {
-        return { valid: useVuelidate() }
+        return { v: useVuelidate() }
     },
     data: () => {
         return {
@@ -60,7 +70,7 @@ export default {
     },
     validations () {
         return {
-            name: { required },
+            name: { required, maxLength: maxLength(170) },
             event: { required },
             time: {
                 required: required,
@@ -68,17 +78,23 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapGetters(['getEventFile', 'getOption'])
+    },
     async mounted(){
-        const response = await this.axios.post('/cron-manager/api/event/find/'+this.$route.params.id)
+        await this.eventFileAction()
+        await this.eventOptionAction()
+        const response = await this.axios.post('/api/cron-manager/event/find/'+this.$route.params.id)
         this.name = response.data.name
         this.event = response.data.event
         this.time = response.data.time
     },
     methods: {
+        ...mapActions(['eventFileAction', 'eventOptionAction']),
         async submit () {
-            const result = await this.valid.$validate()
+            const result = await this.v.$validate()
             if (result) {
-                await this.axios.post('/cron-manager/api/event/update/'+this.$route.params.id, {
+                await this.axios.post('/api/cron-manager/event/update/'+this.$route.params.id, {
                     name: this.name,
                     event: this.event,
                     time: this.time
