@@ -21,17 +21,11 @@
                     <form action="">
                         <label class="block mb-3">
                             <span class="text-gray-800 font-bold">Путь до файлов заданий <span class="text-red-600">*</span></span>
-                            <input v-model="form.path_schedule" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <div class="text-sm text-red-500" v-if="v.form.path_schedule.$error">
-                                Путь до файлов заданий обязательно для заполнения
-                            </div>
+                            <input v-model="form.path_schedule" required type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </label>
                         <label class="block mb-3">
                             <span class="text-gray-800 font-bold">Пространство имен файлов заданий <span class="text-red-600">*</span></span>
-                            <input v-model="form.namespace" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <div class="text-sm text-red-500" v-if="v.form.namespace.$error">
-                                Пространство имен файлов заданий обязательно для заполнения
-                            </div>
+                            <input v-model="form.namespace" required type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </label>
                         <div class="mt-4">
                             <button v-on:click="submit()" type="submit" class="px-4 py-2 font-semibold bg-indigo-500 hover:bg-indigo-400 text-sm text-white rounded-full shadow-sm">Сохранить</button>
@@ -44,14 +38,8 @@
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
-import {required} from "@vuelidate/validators";
-
 export default {
     name: 'PageOptionMain',
-    setup () {
-        return { v: useVuelidate() }
-    },
     data: () => {
         return {
             menu_option: [
@@ -65,14 +53,6 @@ export default {
             form: {
                 path_schedule: '',
                 namespace: ''
-            }
-        }
-    },
-    validations () {
-        return {
-            form: {
-                path_schedule: { required },
-                namespace: { required }
             }
         }
     },
@@ -95,19 +75,16 @@ export default {
             })
         },
         async submit () {
-            const result = await this.v.$validate()
-            if (result) {
-                const response = await this.axios.post('/api/cron-manager/option/select');
-                const option = response.data;
-                for(let key in this.form){
-                    let value = this.form[key]
-                    let id = option.find(v => v.key === key).id;
-                    await this.axios.post('/api/cron-manager/option/update/'+id, {
-                        value: value
-                    });
-                }
-                this.messages = 'Настройки успешно сохранены.'
+            const response = await this.axios.post('/api/cron-manager/option/select');
+            const option = response.data;
+            for(let key in this.form){
+                let value = this.form[key]
+                let id = option.find(v => v.key === key).id;
+                await this.axios.post('/api/cron-manager/option/update/'+id, {
+                    value: value
+                });
             }
+            this.messages = 'Настройки успешно сохранены.'
         }
     }
 };

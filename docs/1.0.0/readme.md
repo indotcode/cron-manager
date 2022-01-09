@@ -2,9 +2,14 @@
 
 ## Подключения
 
-**Файл:** config/app.php
+**Файл:** config/app.php массив providers 
 ```php
 Indotcode\CronManager\CronManagerServiceProvider::class;
+```
+
+**Файл:** config/app.php массив aliases
+```php
+'CronManager' => Indotcode\CronManager\Facade::class,
 ```
 
 ## Импорт ресурсов

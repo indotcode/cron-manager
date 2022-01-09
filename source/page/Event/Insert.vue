@@ -7,77 +7,61 @@
             </div>
         </div>
         <div>
-            <form action="">
+            <Form @submit="onSubmit">
                 <label class="block mb-3">
                     <span class="text-gray-800 font-bold">Название <span class="text-red-600">*</span></span>
-                    <input placeholder="Введите название задачи" v-model="name" @blur="v.name.$commit" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <div class="text-sm text-red-500" v-for="error of v.name.$errors" :key="error.$uid">
-                        <template v-if="error.$validator === 'required'">
-                            Название обязательно для заполнения
-                        </template>
-                        <template v-if="error.$validator === 'maxLength'">
-                            Максимальное число символов в поле {{error.$params.max}}
-                        </template>
-                    </div>
+                    <Field v-model="name" placeholder="Введите название задачи" name="name" type="text" :rules="nameRule"  class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                    <ErrorMessage class="text-sm text-red-500" name="name" />
                 </label>
                 <label class="block mb-3">
+                    <Field name="event" v-model="event" type="hidden" :rules="eventRule"/>
                     <span class="text-gray-800 font-bold">Event файл <span class="text-red-600">*</span></span>
                     <div class="text-sm text-slate-400">Путь к файлу: {{getOption.path_schedule}}</div>
                     <select v-model="event" class="form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option selected disabled hidden value="">Выберите файл</option>
                         <option v-for="(file, id) in getEventFile" :key="id" :value="file">{{file}}</option>
                     </select>
-                    <span class="text-sm text-red-500" v-if="v.event.$error">
-                        Event обязательно для заполнения
-                    </span>
+                    <ErrorMessage class="text-sm text-red-500" name="event" />
                 </label>
-                <label class="block">
+                <label class="block mb-3">
+                    <Field name="periodicity" v-model="periodicity" type="hidden" :rules="periodicityRule"/>
                     <span class="text-gray-800 font-bold">Параметры периодичности расписания <span class="text-red-600">*</span></span>
-                    <select @change="periodicityEvent()" v-model="periodicity" class="form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <select required v-model="periodicity" class="form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option selected disabled hidden value="">Выберите периуд расписания</option>
                         <option v-for="(param, id) in getPlanning" :key="id" :value="param.key">{{param.name}}</option>
                     </select>
-
-                    <span class="text-sm text-red-500" v-if="v.periodicity.$error">
-                        Параметр периодичности расписания обязательно для заполнения
-                    </span>
+                    <ErrorMessage class="text-sm text-red-500" name="periodicity" />
                 </label>
 
-                <Periodicity :fields="fields_periodicity"/>
+                <template v-if="periodicity === 'cron'">
+                    <PeriodicityCron/>
+                </template>
+                <template v-if="periodicity === 'hourlyAt'">
+                    <PeriodicityHourlyAt/>
+                </template>
 
                 <div class="mt-4">
-                    <button v-on:click="submit()" type="submit" class="px-4 py-2 font-semibold bg-indigo-500 hover:bg-indigo-400 text-sm text-white rounded-full shadow-sm">Сохранить</button>
+                    <button type="submit" class="px-4 py-2 font-semibold bg-indigo-500 hover:bg-indigo-400 text-sm text-white rounded-full shadow-sm">Сохранить</button>
                 </div>
-            </form>
+            </Form>
         </div>
     </div>
 </template>
 
 <script>
-import useVuelidate from '@vuelidate/core'
-import { required, maxLength, numeric } from '@vuelidate/validators'
+import { Form, Field, ErrorMessage} from 'vee-validate';
 import { mapActions, mapGetters } from 'vuex'
 import Crumbs from './../../components/Crumbs'
-import Periodicity from './../../components/Periodicity'
+import PeriodicityCron from './../../components/Periodicity/Cron'
+import PeriodicityHourlyAt from './../../components/Periodicity/HourlyAt'
 export default {
     name: 'PageEventInsert',
-    components: {Crumbs, Periodicity},
-    setup () {
-        return { v: useVuelidate() }
-    },
+    components: {Crumbs, PeriodicityCron, Form, Field, ErrorMessage, PeriodicityHourlyAt},
     data: () => {
         return {
             name: '',
             event: '',
-            periodicity: '',
-            fields_periodicity: []
-        }
-    },
-    validations () {
-        return {
-            name: { required, maxLength: maxLength(170)},
-            event: { required },
-            periodicity: { required },
+            periodicity: ''
         }
     },
     computed: {
@@ -89,21 +73,37 @@ export default {
     },
     methods: {
         ...mapActions(['eventFileAction', 'eventOptionAction']),
-        async submit () {
-            // console.log(this.v);
-            const result = await this.v.$validate()
-            if (result) {
-                await this.axios.post('/api/cron-manager/event/insert', {
-                    name: this.name,
-                    event: this.event,
-                    periodicity: this.periodicity
-                });
-                await this.$router.push('/')
-            }
+        async onSubmit (values) {
+            console.log(JSON.stringify(values, null, 2))
+            // if (result) {
+            //     await this.axios.post('/api/cron-manager/event/insert', {
+            //         name: this.name,
+            //         event: this.event,
+            //         periodicity: this.periodicity
+            //     });
+            //     await this.$router.push('/')
+            // }
         },
-        periodicityEvent(){
-            const option = this.getPlanning.find(v => v.key === this.periodicity)
-            this.fields_periodicity = option.fields
+        periodicityRule(value) {
+            if(!value){
+                return 'Параметр периодичности расписания обязателен для заполнения';
+            }
+            return true;
+        },
+        eventRule(value) {
+            if(!value){
+                return 'Event файл обязателен для заполнения';
+            }
+            return true;
+        },
+        nameRule(value) {
+            if(!value){
+                return 'Название обязательно для заполнения';
+            }
+            if(value && value.length >= 170){
+                return 'Название не должно привышать 170 символов';
+            }
+            return true;
         }
     }
 };
