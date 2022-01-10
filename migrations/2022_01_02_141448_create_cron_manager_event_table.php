@@ -21,6 +21,7 @@ class CreateCronManagerEventTable extends Migration
             $table->string('periodicity');
             $table->longText('periodicity_value')->nullable();
             $table->string('restrictions_days')->nullable();
+            $table->string('timezone', 250)->nullable();
             $table->timestamps();
         });
     }

@@ -7,7 +7,7 @@ const store = createStore({
             event_file: [],
             option: [],
             planning: [],
-            restrictionsDay: []
+            restrictionsDay: [],
         }
     },
     mutations: {
@@ -19,7 +19,7 @@ const store = createStore({
         },
         planningMutation(state, planning){
             state.planning = planning
-        }
+        },
     },
     actions: {
         async eventFileAction(ctx){

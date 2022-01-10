@@ -85,6 +85,18 @@ export default {
                 });
             }
             this.messages = 'Настройки успешно сохранены.'
+        },
+        roles_path_schedule(value) {
+            if(!value){
+                return 'Тайминг cron обязателен для заполнения';
+            }
+            return true;
+        },
+        roles_namespace(value) {
+            if(!value){
+                return 'Тайминг cron обязателен для заполнения';
+            }
+            return true;
         }
     }
 };

@@ -8,11 +8,13 @@
         </div>
         <div>
             <Form @submit="onSubmit">
+
                 <label class="block mb-3">
                     <span class="text-gray-800 font-bold">Название <span class="text-red-600">*</span></span>
                     <Field v-model="name" placeholder="Введите название задачи" name="name" type="text" :rules="nameRule"  class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                     <ErrorMessage class="text-sm text-red-500" name="name" />
                 </label>
+
                 <label class="block mb-3">
                     <Field name="event" v-model="event" type="hidden" :rules="eventRule"/>
                     <span class="text-gray-800 font-bold">Event файл <span class="text-red-600">*</span></span>
@@ -23,6 +25,7 @@
                     </select>
                     <ErrorMessage class="text-sm text-red-500" name="event" />
                 </label>
+
                 <label class="block mb-3">
                     <Field name="periodicity" v-model="periodicity" type="hidden" :rules="periodicityRule"/>
                     <span class="text-gray-800 font-bold">Параметры периодичности расписания <span class="text-red-600">*</span></span>
@@ -36,15 +39,19 @@
                 <template v-if="periodicity === 'cron'">
                     <PeriodicityCron/>
                 </template>
+
                 <template v-if="periodicity === 'hourlyAt'">
                     <PeriodicityHourlyAt/>
                 </template>
+
                 <template v-if="periodicity === 'twiceDaily'">
                     <PeriodicityTwiceDaily/>
                 </template>
+
                 <template v-if="periodicity === 'dailyAt'">
                     <PeriodicityDailyAt/>
                 </template>
+
                 <template v-if="periodicity === 'monthlyOn'">
                     <PeriodicityMonthlyOn/>
                 </template>
@@ -56,6 +63,7 @@
                 <div class="mt-4 flex justify-end">
                     <button type="submit" class="px-4 py-2 font-semibold bg-indigo-500 hover:bg-indigo-400 text-sm text-white rounded-full shadow-sm">Сохранить</button>
                 </div>
+
             </Form>
         </div>
     </div>
@@ -100,6 +108,9 @@ export default {
             }
             data.periodicity_value = JSON.stringify(params)
             data.restrictions_days = values.restrictionsDay
+            if(values.timezone){
+                data.timezone = values.timezone;
+            }
             await this.axios.post('/api/cron-manager/event/insert', data);
             await this.$router.push('/')
         },
