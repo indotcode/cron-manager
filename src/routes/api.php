@@ -24,5 +24,6 @@ Route::prefix('api/cron-manager')->name('cron.manager')->group(function () {
     Route::prefix('/resource')->name('.resource')->group(function () {
         Route::get('/event-list', [CronManagerResourceController::class, 'eventList'])->name('.event.list');
         Route::get('/planning', [CronManagerResourceController::class, 'planning'])->name('.event.planning');
+        Route::get('/restrictions-day', [CronManagerResourceController::class, 'restrictionsDay'])->name('.event.restrictions-day');
     });
 });

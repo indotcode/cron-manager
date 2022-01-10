@@ -23,141 +23,122 @@ class Resource
     }
 
 
+    public static function getRestrictionsDay(): array
+    {
+        return [
+            [
+                'name' => 'Понедельник',
+                'key' => 'mondays'
+            ],
+            [
+                'name' => 'Вторник',
+                'key' => 'tuesdays'
+            ],
+            [
+                'name' => 'Среда',
+                'key' => 'wednesdays'
+            ],
+            [
+                'name' => 'Четверг',
+                'key' => 'thursdays'
+            ],
+            [
+                'name' => 'Пятница',
+                'key' => 'fridays'
+            ],
+            [
+                'name' => 'Суббота',
+                'key' => 'saturdays'
+            ],
+            [
+                'name' => 'Воскреснье',
+                'key' => 'sundays'
+            ]
+        ];
+    }
+
     public static function getPlanning(): array
     {
         return [
             [
                 'name' => 'Запустить задачу по расписанию с параметрами cron',
-                'key' => 'cron',
-                'fields' => [
-                    [
-                        'type' => 'text',
-                        'view' => 'cron'
-                    ]
-                ],
+                'key' => 'cron'
             ],
             [
                 'name' => 'Запускать задачу ежеминутно',
-                'key' => 'everyMinute',
-                'fields' => []
+                'key' => 'everyMinute'
             ],
             [
                 'name' => 'Запускать каждые 2 минуты',
-                'key' => 'everyMinute',
-                'fields' => []
+                'key' => 'everyMinute'
             ],
             [
                 'name' => 'Запускать каждые 3 минуты',
-                'key' => 'everyThreeMinutes',
-                'fields' => []
+                'key' => 'everyThreeMinutes'
             ],
             [
                 'name' => 'Запускать каждые 4 минуты',
-                'key' => 'everyFourMinutes',
-                'fields' => []
+                'key' => 'everyFourMinutes'
             ],
             [
                 'name' => 'Запускать каждые 5 минут',
-                'key' => 'everyFiveMinutes',
-                'fields' => []
+                'key' => 'everyFiveMinutes'
             ],
             [
                 'name' => 'Запускать каждые 10 минут',
-                'key' => 'everyTenMinutes',
-                'fields' => []
+                'key' => 'everyTenMinutes'
             ],
             [
                 'name' => 'Запускать каждые 15 минут',
-                'key' => 'everyFifteenMinutes',
-                'fields' => []
+                'key' => 'everyFifteenMinutes'
             ],
             [
                 'name' => 'Запускать каждые 30 минут',
-                'key' => 'everyThirtyMinutes',
-                'fields' => []
+                'key' => 'everyThirtyMinutes'
             ],
             [
                 'name' => 'Запускать каждый час',
-                'key' => 'hourly',
-                'fields' => []
+                'key' => 'hourly'
             ],
             [
                 'name' => 'Запускать в N минут каждого часа',
-                'key' => 'hourlyAt',
-                'fields' => [
-                    [
-                        'type' => 'number',
-                        'view' => 'minute'
-                    ]
-                ]
+                'key' => 'hourlyAt'
             ],
             [
                 'name' => 'Запускать каждые 2 часа',
-                'key' => 'everyTwoHours',
-                'fields' => []
+                'key' => 'everyTwoHours'
             ],
             [
                 'name' => 'Запускать каждые 3 часа',
-                'key' => 'everyThreeHours',
-                'fields' => []
+                'key' => 'everyThreeHours'
             ],
             [
                 'name' => 'Запускать каждые 4 часа',
-                'key' => 'everyFourHours',
-                'fields' => []
+                'key' => 'everyFourHours'
             ],
             [
                 'name' => 'Запускать каждые 6 часов',
-                'key' => 'everySixHours',
-                'fields' => []
+                'key' => 'everySixHours'
             ],
             [
                 'name' => 'Запускать каждый день в полночь',
-                'key' => 'daily',
-                'fields' => []
+                'key' => 'daily'
             ],
             [
                 'name' => 'Запускать ежедневно в N часов',
-                'key' => 'dailyAt',
-                'fields' => [
-                    [
-                        'type' => 'text',
-                        'view' => 'time'
-                    ]
-                ]
+                'key' => 'dailyAt'
             ],
             [
                 'name' => 'Запускать ежедневно дважды в день в N и N',
-                'key' => 'twiceDaily',
-                'fields' => [
-                    [
-                        'type' => 'number',
-                        'view' => 'hour'
-                    ],
-                    [
-                        'type' => 'number',
-                        'view' => 'hour'
-                    ]
-                ]
+                'key' => 'twiceDaily'
             ],
             [
                 'name' => 'Запускать еженедельно в воскресенье в 00:00',
-                'key' => 'weekly',
-                'fields' => []
+                'key' => 'weekly'
             ],
             [
                 'name' => 'Запускать ежемесячно N числа в N',
-                'key' => 'monthlyOn',
-                'fields' => [
-                    [
-                        'type' => 'number',
-                        'view' => 'day'
-                    ],
-                    [
-                        'type' => 'text',
-                        'view' => 'time'
-                    ]
-                ]
+                'key' => 'monthlyOn'
             ]
         ];
     }

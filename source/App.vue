@@ -34,8 +34,8 @@ export default {
             ]
         }
     },
-    mounted() {
-        this.planningAction()
+    async mounted() {
+        await this.planningAction()
     },
     methods: {
         ...mapActions(['planningAction']),

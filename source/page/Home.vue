@@ -13,9 +13,8 @@
             <thead>
                 <tr>
                     <th class="w-1/24 border-b dark:border-gray-600 font-medium p-4 text-gray-400 dark:text-gray-200 text-left">ID</th>
-                    <th class="w-4/12 border-b dark:border-gray-600 font-medium p-4 text-gray-400 dark:text-gray-200 text-left">Название</th>
+                    <th class="w-6/12 border-b dark:border-gray-600 font-medium p-4 text-gray-400 dark:text-gray-200 text-left">Название</th>
                     <th class="w-3/12 border-b dark:border-gray-600 font-medium p-4 text-gray-400 dark:text-gray-200 text-left">Event файл</th>
-                    <th class="w-2/12 border-b dark:border-gray-600 font-medium p-4 text-gray-400 dark:text-gray-200 text-left">Время (сек)</th>
                     <th class="w-2/12 border-b dark:border-gray-600 font-medium p-4 text-gray-400 dark:text-gray-200 text-right">Опции</th>
                 </tr>
             </thead>
@@ -24,7 +23,6 @@
                     <td class="border-b border-gray-100 dark:border-gray-700 p-4 text-gray-500 dark:text-gray-400 text-left">{{item.id}}</td>
                     <td class="border-b border-gray-100 dark:border-gray-700 p-4 text-gray-500 dark:text-gray-400 text-left">{{item.name}}</td>
                     <td class="border-b border-gray-100 dark:border-gray-700 p-4 text-gray-500 dark:text-gray-400 text-left">{{item.event}}</td>
-                    <td class="border-b border-gray-100 dark:border-gray-700 p-4 text-gray-500 dark:text-gray-400 text-left">{{item.time}}</td>
                     <td class="border-b border-gray-100 dark:border-gray-700 p-4 text-gray-500 dark:text-gray-400 text-right">
                         <div class="flex flex-wrap justify-end">
                             <template v-if="item.active === 0">

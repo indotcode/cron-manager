@@ -39,8 +39,21 @@
                 <template v-if="periodicity === 'hourlyAt'">
                     <PeriodicityHourlyAt/>
                 </template>
+                <template v-if="periodicity === 'twiceDaily'">
+                    <PeriodicityTwiceDaily/>
+                </template>
+                <template v-if="periodicity === 'dailyAt'">
+                    <PeriodicityDailyAt/>
+                </template>
+                <template v-if="periodicity === 'monthlyOn'">
+                    <PeriodicityMonthlyOn/>
+                </template>
 
-                <div class="mt-4">
+                <FieldTimezone/>
+
+                <FieldRestrictionsDay/>
+
+                <div class="mt-4 flex justify-end">
                     <button type="submit" class="px-4 py-2 font-semibold bg-indigo-500 hover:bg-indigo-400 text-sm text-white rounded-full shadow-sm">Сохранить</button>
                 </div>
             </Form>
@@ -52,11 +65,14 @@
 import { Form, Field, ErrorMessage} from 'vee-validate';
 import { mapActions, mapGetters } from 'vuex'
 import Crumbs from './../../components/Crumbs'
-import PeriodicityCron from './../../components/Periodicity/Cron'
-import PeriodicityHourlyAt from './../../components/Periodicity/HourlyAt'
 export default {
     name: 'PageEventInsert',
-    components: {Crumbs, PeriodicityCron, Form, Field, ErrorMessage, PeriodicityHourlyAt},
+    components: {
+        Crumbs,
+        Form,
+        Field,
+        ErrorMessage
+    },
     data: () => {
         return {
             name: '',
@@ -74,15 +90,18 @@ export default {
     methods: {
         ...mapActions(['eventFileAction', 'eventOptionAction']),
         async onSubmit (values) {
-            console.log(JSON.stringify(values, null, 2))
-            // if (result) {
-            //     await this.axios.post('/api/cron-manager/event/insert', {
-            //         name: this.name,
-            //         event: this.event,
-            //         periodicity: this.periodicity
-            //     });
-            //     await this.$router.push('/')
-            // }
+            let data = {}
+            data.name = values.name
+            data.event = values.event
+            data.periodicity = values.periodicity
+            let params = [];
+            if(values.params){
+                params = values.params;
+            }
+            data.periodicity_value = JSON.stringify(params)
+            data.restrictions_days = values.restrictionsDay
+            await this.axios.post('/api/cron-manager/event/insert', data);
+            await this.$router.push('/')
         },
         periodicityRule(value) {
             if(!value){

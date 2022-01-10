@@ -19,4 +19,9 @@ class CronManagerResourceController implements CronManagerResourceInterfaces
     {
         return response()->json(Resource::getPlanning(),200);
     }
+
+    public  function restrictionsDay() : JsonResponse
+    {
+        return response()->json(Resource::getRestrictionsDay(),200);
+    }
 }

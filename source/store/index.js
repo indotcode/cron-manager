@@ -6,7 +6,8 @@ const store = createStore({
         return {
             event_file: [],
             option: [],
-            planning: []
+            planning: [],
+            restrictionsDay: []
         }
     },
     mutations: {
