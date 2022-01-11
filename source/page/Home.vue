@@ -82,7 +82,6 @@ export default {
                 }
                 return item;
             })
-            console.log(response.data)
         }
     }
 };

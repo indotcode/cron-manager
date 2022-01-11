@@ -122,6 +122,9 @@ export default {
             data.timezone = values.timezone ? values.timezone : ''
             await this.axios.post('/api/cron-manager/event/update/'+this.$route.params.id, data)
             this.messages = 'Задание успешно сохранено.'
+            setTimeout(() => {
+                this.messages = ''
+            }, 2000)
         },
         periodicityRule(value) {
             if(!value){

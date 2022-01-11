@@ -18,19 +18,32 @@
                     <div v-on:click="messages = ''" class="text-blue-600 mb-3 cursor-pointer " v-if="messages !== ''">
                         {{messages}}
                     </div>
-                    <form action="">
+                    <Form @submit="onSubmit" v-slot="slot">
                         <label class="block mb-3">
                             <span class="text-gray-800 font-bold">Путь до файлов заданий <span class="text-red-600">*</span></span>
-                            <input v-model="form.path_schedule" required type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <div class="text-sm text-slate-400">Пример: app/Console/CronManager</div>
+                            <Field v-model="form.path_schedule" name="path_schedule" type="text" :rules="roles" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                            <div class="text-sm text-red-500" v-if="slot.errors.path_schedule === 'required'">
+                                Путь до файлов заданий обязателен для заполнения
+                            </div>
                         </label>
                         <label class="block mb-3">
                             <span class="text-gray-800 font-bold">Пространство имен файлов заданий <span class="text-red-600">*</span></span>
-                            <input v-model="form.namespace" required type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <div class="text-sm text-slate-400">Пример: App\Console\CronManager</div>
+                            <Field v-model="form.namespace" name="namespace" type="text" :rules="roles" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                            <div class="text-sm text-red-500" v-if="slot.errors.namespace === 'required'">
+                                Пространство имен файлов заданий обязательно для заполнения
+                            </div>
                         </label>
-                        <div class="mt-4">
-                            <button v-on:click="submit()" type="submit" class="px-4 py-2 font-semibold bg-indigo-500 hover:bg-indigo-400 text-sm text-white rounded-full shadow-sm">Сохранить</button>
+                        <label class="block mb-3">
+                            <span class="text-gray-800 font-bold">Часовой пояс</span>
+                            <div class="text-sm text-slate-400">Пример: America/New_York</div>
+                            <Field v-model="form.timezone" name="timezone" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                        </label>
+                        <div class="mt-4 flex justify-end">
+                            <button type="submit" class="px-4 py-2 font-semibold bg-indigo-500 hover:bg-indigo-400 text-sm text-white rounded-full shadow-sm">Сохранить</button>
                         </div>
-                    </form>
+                    </Form>
                 </div>
             </div>
         </div>
@@ -38,8 +51,11 @@
 </template>
 
 <script>
+import {ErrorMessage, Field, Form} from "vee-validate";
+
 export default {
     name: 'PageOptionMain',
+    components: {Form, Field, ErrorMessage},
     data: () => {
         return {
             menu_option: [
@@ -52,7 +68,8 @@ export default {
             messages: '',
             form: {
                 path_schedule: '',
-                namespace: ''
+                namespace: '',
+                timezone: ''
             }
         }
     },
@@ -61,6 +78,7 @@ export default {
         const response = await this.axios.post('/api/cron-manager/option/select')
         this.form.path_schedule = response.data.find(v => v.key === 'path_schedule').value
         this.form.namespace = response.data.find(v => v.key === 'namespace').value
+        this.form.timezone = response.data.find(v => v.key === 'timezone').value
     },
     watch: {
         '$route' (to, from) {
@@ -74,27 +92,26 @@ export default {
                 return item
             })
         },
-        async submit () {
+        async onSubmit (values) {
             const response = await this.axios.post('/api/cron-manager/option/select');
             const option = response.data;
-            for(let key in this.form){
-                let value = this.form[key]
-                let id = option.find(v => v.key === key).id;
-                await this.axios.post('/api/cron-manager/option/update/'+id, {
-                    value: value
-                });
+            for(let key in values){
+                let value = values[key]
+                if(value.length !== 0){
+                    let id = option.find(v => v.key === key).id;
+                    await this.axios.post('/api/cron-manager/option/update/'+id, {
+                        value: value
+                    });
+                }
             }
             this.messages = 'Настройки успешно сохранены.'
+            setTimeout(() => {
+                this.messages = ''
+            }, 2000)
         },
-        roles_path_schedule(value) {
+        roles(value) {
             if(!value){
-                return 'Тайминг cron обязателен для заполнения';
-            }
-            return true;
-        },
-        roles_namespace(value) {
-            if(!value){
-                return 'Тайминг cron обязателен для заполнения';
+                return 'required';
             }
             return true;
         }

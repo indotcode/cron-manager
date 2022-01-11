@@ -16,6 +16,10 @@ class OptionSeeder extends Seeder
             'key' => 'namespace',
             'value' => 'App\Console\CronManager'
         ],
+        [
+            'key' => 'timezone',
+            'value' => ''
+        ]
     ];
 
     public function run()

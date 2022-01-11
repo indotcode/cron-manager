@@ -24,3 +24,10 @@ php artisan migrate
 ```text
 php artisan db:seed --class="Indotcode\CronManager\Seeders\OptionSeeder"
 ```
+
+
+## Запуск планировщика на сервере
+```text
+# добавить записи cron на свой сервер
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
