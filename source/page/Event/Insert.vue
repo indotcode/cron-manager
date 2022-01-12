@@ -29,7 +29,7 @@
                     <Field name="periodicity" v-model="periodicity" type="hidden" :rules="periodicityRule"/>
                     <span class="text-gray-800 font-bold">Параметры периодичности расписания <span class="text-red-600">*</span></span>
                     <select required v-model="periodicity" class="form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option selected disabled hidden value="">Выберите периуд расписания</option>
+                        <option selected disabled hidden value="">Выберите период расписания</option>
                         <option v-for="(param, id) in getPlanning" :key="id" :value="param.key">{{param.name}}</option>
                     </select>
                     <ErrorMessage class="text-sm text-red-500" name="periodicity" />
@@ -59,8 +59,10 @@
 
                 <FieldRestrictionsDay/>
 
+                <FieldActiveAttempts/>
+
                 <label class="block mb-5">
-                    <span class="text-gray-800 font-bold">Название <span class="text-red-600">*</span></span>
+                    <span class="text-gray-800 font-bold">Описание</span>
                     <Field v-model="description" name="description" v-slot="{ handleChange, handleBlur }">
                         <textarea v-model="description" type="description" placeholder="Краткое описание" @change="handleChange" @blur="handleBlur" class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                     </Field>
@@ -116,6 +118,7 @@ export default {
             }
             data.periodicity_value = JSON.stringify(params)
             data.restrictions_days = values.restrictionsDay
+            data.de_active_attempts = values.de_active_attempts
             if(values.timezone){
                 data.timezone = values.timezone;
             }

@@ -31,3 +31,23 @@ php artisan db:seed --class="Indotcode\CronManager\Seeders\OptionSeeder"
 # добавить записи cron на свой сервер
 * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
+
+
+## Вызов в шаблоне
+
+### Модуль
+
+```blade
+{!! CronManager::get() !!}
+```
+### Стили
+
+```blade
+{!! CronManager::css() !!}
+```
+
+### Скрипты
+
+```blade
+{!! CronManager::js() !!}
+```

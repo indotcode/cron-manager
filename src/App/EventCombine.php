@@ -17,11 +17,14 @@ class EventCombine
             $eventF = new EventFactories($schedule);
             $eventF->setCall(function () use ($event, $event_method, $eventCl) {
                 $log = new LogFactories();
+                $deActive = new DeActiveFactories($event['id']);
                 try {
                     $eventCl->$event_method($event);
                     $log->setLog($event, 'Задание успешно завершено.');
+                    $deActive->setStart();
                 } catch (\Exception $e){
                     $log->setLog($event, $e->getMessage());
+                    $deActive->setError();
                 }
             });
             $eventF->setId($event->id);

@@ -32,7 +32,7 @@
                     <Field name="periodicity" v-model="periodicity" type="hidden" :rules="periodicityRule"/>
                     <span class="text-gray-800 font-bold">Параметры периодичности расписания <span class="text-red-600">*</span></span>
                     <select required v-model="periodicity" class="form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option selected disabled hidden value="">Выберите периуд расписания</option>
+                        <option selected disabled hidden value="">Выберите период расписания</option>
                         <option v-for="(param, id) in getPlanning" :key="id" :value="param.key">{{param.name}}</option>
                     </select>
                     <ErrorMessage class="text-sm text-red-500" name="periodicity" />
@@ -62,9 +62,11 @@
 
                 <FieldRestrictionsDay :value="data.restrictions_days"/>
 
+                <FieldActiveAttempts :value="data.de_active_attempts"/>
+
 
                 <label class="block mb-5">
-                    <span class="text-gray-800 font-bold">Описание <span class="text-red-600">*</span></span>
+                    <span class="text-gray-800 font-bold">Описание</span>
                     <Field v-model="description" name="description" v-slot="{ handleChange, handleBlur }">
                         <textarea v-model="description" type="description" placeholder="Краткое описание" @change="handleChange" @blur="handleBlur" class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                     </Field>
@@ -83,7 +85,6 @@
 import { Form, Field, ErrorMessage} from 'vee-validate';
 import { mapActions, mapGetters } from 'vuex'
 import Crumbs from './../../components/Crumbs'
-import axios from "../../axios";
 export default {
     name: 'PageEventUpdate',
     components: {Crumbs, Form, Field, ErrorMessage},
@@ -128,6 +129,7 @@ export default {
             }
             data.periodicity_value = JSON.stringify(params)
             data.restrictions_days = values.restrictionsDay
+            data.de_active_attempts = values.de_active_attempts
             data.timezone = values.timezone ? values.timezone : ''
             await this.axios.post('/api/cron-manager/event/update/'+this.$route.params.id, data)
             this.messages = 'Задание успешно сохранено.'

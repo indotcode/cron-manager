@@ -11,6 +11,7 @@ import PeriodicityDailyAt from './components/Periodicity/DailyAt'
 import PeriodicityMonthlyOn from './components/Periodicity/MonthlyOn'
 import FieldTimezone from './components/Field/Timezone'
 import FieldRestrictionsDay from './components/Field/RestrictionsDay'
+import FieldActiveAttempts from './components/Field/ActiveAttempts'
 
 const global_components = {
     PeriodicityCron,
@@ -19,7 +20,8 @@ const global_components = {
     PeriodicityDailyAt,
     PeriodicityMonthlyOn,
     FieldTimezone,
-    FieldRestrictionsDay
+    FieldRestrictionsDay,
+    FieldActiveAttempts
 }
 
 const app = createApp(App)
