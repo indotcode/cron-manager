@@ -11,7 +11,7 @@
                 </svg>
             </div>
         </div>
-        <div class="log__messages bg-slate-100 rounded-md border dark:border-gray-600 border-solid p-2 h-full">
+        <div class="log__messages bg-slate-100 rounded-md border dark:border-gray-600 border-solid p-2 h-full overflow-y-auto">
             <div v-for="item in getLog" :key="item.id" class="mb-2">
                 <div class="text-sm text-slate-400">{{item.date}}</div>
                 <div class="text-sm">{{item.message}}</div>
