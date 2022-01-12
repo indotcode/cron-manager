@@ -2,24 +2,15 @@
 
 namespace Indotcode\CronManager\App;
 
+use App\Console\CronManager\Event;
 use Illuminate\Filesystem\Filesystem;
 use Indotcode\CronManager\Models\CronManagerOption;
 
 class Resource
 {
-    public static function getFileEvent(): array
+    public static function getEventMethods(): array
     {
-        $result = [];
-        $option_path_schedule = CronManagerOption::where('key', 'path_schedule')->first();
-        $path = app()->basePath() . '/' . $option_path_schedule->value;
-        $filesystem = new Filesystem();
-        if ($filesystem->exists($path)){
-            $file_result = $filesystem->allFiles($path);
-            foreach ($file_result as $key => $val){
-                $result[$key] = $val->getBasename();
-            }
-        }
-        return $result;
+        return (new Event())->getClassList();
     }
 
 

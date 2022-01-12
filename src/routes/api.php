@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use Indotcode\CronManager\Controller\Api\CronManagerEventController;
 use Indotcode\CronManager\Controller\Api\CronManagerOptionController;
+use Indotcode\CronManager\Controller\Api\CronManagerLogController;
 use Indotcode\CronManager\Controller\Api\CronManagerResourceController;
 
 Route::prefix('api/cron-manager')->name('cron.manager')->group(function () {
@@ -25,5 +26,10 @@ Route::prefix('api/cron-manager')->name('cron.manager')->group(function () {
         Route::get('/event-list', [CronManagerResourceController::class, 'eventList'])->name('.event.list');
         Route::get('/planning', [CronManagerResourceController::class, 'planning'])->name('.event.planning');
         Route::get('/restrictions-day', [CronManagerResourceController::class, 'restrictionsDay'])->name('.event.restrictions-day');
+    });
+
+    Route::prefix('/log')->name('.log')->group(function () {
+        Route::get('/select/event/{id}', [CronManagerLogController::class, 'selectEventId'])->where('id', '[0-9]+')->name('.select-event-id');
+        Route::post('/delete/event/{id}', [CronManagerLogController::class, 'deleteEventId'])->where('id', '[0-9]+')->name('.delete-event-id');
     });
 });

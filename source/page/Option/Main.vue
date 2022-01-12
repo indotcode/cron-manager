@@ -20,22 +20,6 @@
                     </div>
                     <Form @submit="onSubmit" v-slot="slot">
                         <label class="block mb-3">
-                            <span class="text-gray-800 font-bold">Путь до файлов заданий <span class="text-red-600">*</span></span>
-                            <div class="text-sm text-slate-400">Пример: app/Console/CronManager</div>
-                            <Field v-model="form.path_schedule" name="path_schedule" type="text" :rules="roles" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
-                            <div class="text-sm text-red-500" v-if="slot.errors.path_schedule === 'required'">
-                                Путь до файлов заданий обязателен для заполнения
-                            </div>
-                        </label>
-                        <label class="block mb-3">
-                            <span class="text-gray-800 font-bold">Пространство имен файлов заданий <span class="text-red-600">*</span></span>
-                            <div class="text-sm text-slate-400">Пример: App\Console\CronManager</div>
-                            <Field v-model="form.namespace" name="namespace" type="text" :rules="roles" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
-                            <div class="text-sm text-red-500" v-if="slot.errors.namespace === 'required'">
-                                Пространство имен файлов заданий обязательно для заполнения
-                            </div>
-                        </label>
-                        <label class="block mb-3">
                             <span class="text-gray-800 font-bold">Часовой пояс</span>
                             <div class="text-sm text-slate-400">Пример: America/New_York</div>
                             <Field v-model="form.timezone" name="timezone" type="text" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
@@ -67,8 +51,6 @@ export default {
             ],
             messages: '',
             form: {
-                path_schedule: '',
-                namespace: '',
                 timezone: ''
             }
         }
@@ -76,8 +58,6 @@ export default {
     async mounted() {
         this.initClassLink(this.$route.path)
         const response = await this.axios.post('/api/cron-manager/option/select')
-        this.form.path_schedule = response.data.find(v => v.key === 'path_schedule').value
-        this.form.namespace = response.data.find(v => v.key === 'namespace').value
         this.form.timezone = response.data.find(v => v.key === 'timezone').value
     },
     watch: {
@@ -118,7 +98,3 @@ export default {
     }
 };
 </script>
-
-<style>
-
-</style>

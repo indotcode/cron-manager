@@ -16,12 +16,13 @@ class CreateCronManagerEventTable extends Migration
         Schema::create('cron_manager_event', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('event');
+            $table->string('methods');
             $table->boolean('active')->default(false);
             $table->string('periodicity');
             $table->longText('periodicity_value')->nullable();
             $table->string('restrictions_days')->nullable();
             $table->string('timezone', 250)->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

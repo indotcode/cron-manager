@@ -9,14 +9,6 @@ class OptionSeeder extends Seeder
 {
     private array $default_option = [
         [
-            'key' => 'path_schedule',
-            'value' => 'app/Console/CronManager'
-        ],
-        [
-            'key' => 'namespace',
-            'value' => 'App\Console\CronManager'
-        ],
-        [
             'key' => 'timezone',
             'value' => ''
         ]

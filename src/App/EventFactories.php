@@ -40,6 +40,7 @@ class EventFactories
         $this->periodicity();
         $this->timezone();
         $this->restrictionsDays();
+        $this->event->sendOutputTo(app()->basePath() . '/app/Console/CronManager/log.txt');
     }
 
     private function getEvent()

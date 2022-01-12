@@ -4,15 +4,18 @@ import axios from "../axios";
 const store = createStore({
     state () {
         return {
-            event_file: [],
+            event_methods: [],
             option: [],
             planning: [],
             restrictionsDay: [],
+            log: [],
+            logIdEvent: 0,
+            logActive: false,
         }
     },
     mutations: {
-        eventFileMutation(state, list){
-            state.event_file = list
+        eventMethodsMutation(state, list){
+            state.event_methods = list
         },
         eventOptionMutation(state, option){
             state.option = option
@@ -20,11 +23,26 @@ const store = createStore({
         planningMutation(state, planning){
             state.planning = planning
         },
+        windowLogOpenMutation(state, {result, id_event}){
+            state.log = result
+            state.logIdEvent = id_event
+        },
+        windowLogCloseMutation(state){
+            state.log = []
+            state.logIdEvent = 0
+            state.logActive = false
+        },
+        logActiveMutation(state, type){
+            state.logActive = type
+        },
+        deleteLogAllMutation(state){
+            state.log = []
+        }
     },
     actions: {
-        async eventFileAction(ctx){
+        async eventMethodsAction(ctx){
             const response = await axios.get('/api/cron-manager/resource/event-list')
-            ctx.commit('eventFileMutation', response.data)
+            ctx.commit('eventMethodsMutation', response.data)
         },
         async eventOptionAction(ctx){
             const response = await axios.post('/api/cron-manager/option/select')
@@ -33,11 +51,24 @@ const store = createStore({
         async planningAction(ctx){
             const response = await axios.get('/api/cron-manager/resource/planning')
             ctx.commit('planningMutation', response.data)
+        },
+        async windowLogOpenAction(ctx, id_event){
+            ctx.commit('logActiveMutation', false)
+            const response = await axios.get('/api/cron-manager/log/select/event/'+ id_event);
+            ctx.commit('windowLogOpenMutation', {result: response.data, id_event})
+            ctx.commit('logActiveMutation', true)
+        },
+        async windowLogCloseAction(ctx){
+            ctx.commit('windowLogCloseMutation')
+        },
+        async deleteLogAllAction(ctx, id_event){
+            await axios.post('/api/cron-manager/log/delete/event/'+ id_event);
+            ctx.commit('deleteLogAllMutation')
         }
     },
     getters: {
-        getEventFile(state){
-            return state.event_file
+        getEventMethods(state){
+            return state.event_methods
         },
         getOption(state){
             let option = [];
@@ -48,6 +79,18 @@ const store = createStore({
         },
         getPlanning(state){
             return state.planning
+        },
+        getLog(state){
+            return state.log.map(item => {
+                item.date = item.created_at.split(".")[0].replace("T", " ")
+                return item;
+            })
+        },
+        getLogActive(state){
+            return state.logActive
+        },
+        getLogIdEvent(state){
+            return state.logIdEvent
         }
     }
 })

@@ -16,14 +16,13 @@
                 </label>
 
                 <label class="block mb-3">
-                    <Field name="event" v-model="event" type="hidden" :rules="eventRule"/>
-                    <span class="text-gray-800 font-bold">Event файл <span class="text-red-600">*</span></span>
-                    <div class="text-sm text-slate-400">Путь к файлу: {{getOption.path_schedule}}</div>
-                    <select v-model="event" class="form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option selected disabled hidden value="">Выберите файл</option>
-                        <option v-for="(file, id) in getEventFile" :key="id" :value="file">{{file}}</option>
+                    <Field name="methods" v-model="methods" type="hidden" :rules="methodsRule"/>
+                    <span class="text-gray-800 font-bold">Метод <span class="text-red-600">*</span></span>
+                    <select v-model="methods" class="form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <option selected disabled hidden value="">Выберите метод</option>
+                        <option v-for="(item, id) in getEventMethods" :key="id" :value="item.method">{{item.title}} <span class="text-red-200">(Метод: {{item.method}})</span></option>
                     </select>
-                    <ErrorMessage class="text-sm text-red-500" name="event" />
+                    <ErrorMessage class="text-sm text-red-500" name="methods" />
                 </label>
 
                 <label class="block mb-3">
@@ -60,7 +59,14 @@
 
                 <FieldRestrictionsDay/>
 
-                <div class="mt-4 flex justify-end">
+                <label class="block mb-5">
+                    <span class="text-gray-800 font-bold">Название <span class="text-red-600">*</span></span>
+                    <Field v-model="description" name="description" v-slot="{ handleChange, handleBlur }">
+                        <textarea v-model="description" type="description" placeholder="Краткое описание" @change="handleChange" @blur="handleBlur" class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                    </Field>
+                </label>
+
+                <div class="flex justify-end">
                     <button type="submit" class="px-4 py-2 font-semibold bg-indigo-500 hover:bg-indigo-400 text-sm text-white rounded-full shadow-sm">Сохранить</button>
                 </div>
 
@@ -84,24 +90,26 @@ export default {
     data: () => {
         return {
             name: '',
-            event: '',
-            periodicity: ''
+            methods: '',
+            periodicity: '',
+            description: ''
         }
     },
     computed: {
-        ...mapGetters(['getEventFile', 'getOption', 'getPlanning']),
+        ...mapGetters(['getEventMethods', 'getOption', 'getPlanning']),
     },
     async mounted(){
-        await this.eventFileAction()
+        await this.eventMethodsAction()
         await this.eventOptionAction()
     },
     methods: {
-        ...mapActions(['eventFileAction', 'eventOptionAction']),
+        ...mapActions(['eventMethodsAction', 'eventOptionAction']),
         async onSubmit (values) {
             let data = {}
             data.name = values.name
-            data.event = values.event
+            data.methods = values.methods
             data.periodicity = values.periodicity
+            data.description = values.description
             let params = [];
             if(values.params){
                 params = values.params;
@@ -120,9 +128,9 @@ export default {
             }
             return true;
         },
-        eventRule(value) {
+        methodsRule(value) {
             if(!value){
-                return 'Event файл обязателен для заполнения';
+                return 'Метод обязателен для заполнения';
             }
             return true;
         },

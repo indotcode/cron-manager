@@ -1,5 +1,5 @@
 <template>
-    <div class="p-6">
+    <div class="p-3 relative">
         <div class="flex flex-wrap ">
             <div v-for="item in menu" :key="item.id" v-bind:class="[item.id === 1 ? 'mr-3' : '', 'mb-3']">
                 <router-link v-bind:class="['block px-4 py-2 font-semibold text-sm text-white rounded-full shadow-sm', item.class]" :to="item.to">
@@ -10,14 +10,16 @@
         <div class="App mt-3">
             <router-view></router-view>
         </div>
+        <WindowLog/>
     </div>
 </template>
 
 <script>
 import {mapActions} from "vuex";
-
+import WindowLog from './components/Window/Log'
 export default {
     name: 'App',
+    components: { WindowLog },
     data: () => {
         return {
             menu: [

@@ -13,9 +13,7 @@ abstract class CronManagerController extends Controller implements CronManagerCo
 
     public function select(Request $request): JsonResponse
     {
-        $event = $this->model;
-        $event->orderBy('id', 'desc');
-        return response()->json($event->get(),200);
+        return response()->json($this->model->orderBy('id', 'desc')->get(),200);
     }
 
     public function find(Request $request, int $id): JsonResponse
