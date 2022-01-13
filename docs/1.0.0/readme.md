@@ -51,3 +51,19 @@ php artisan db:seed --class="Indotcode\CronManager\Seeders\OptionSeeder"
 ```blade
 {!! CronManager::js() !!}
 ```
+
+
+## Методы задач
+
+**Методы задач определяются в классе:** app/Console/CronManager/Event.php
+
+**Формат метода задачи:**
+```php
+# start - Название метода (можно изменить)
+# methods - уникальный ключ (нельзя изменять)
+# $event - Данные крон задачи (Класс модели)
+public function start_methods(CronManagerEvent $event)
+{
+    # Ход выполнения задания
+}
+```

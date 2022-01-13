@@ -4,4 +4,4 @@
 
 ## Документация
 
-- [Релиз 1.0.0](https://github.com/indotcode/cron-manager/tree/main/docs/1.0.0)
+- [Релиз 1.0.0](https://github.com/indotcode/cron-manager/tree/main/docs/1.0.0/readme.md)

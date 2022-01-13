@@ -25,7 +25,7 @@ class EventFactories
 
     public function setCall($callback): static
     {
-        $this->event = $this->schedule->call($callback);
+        $this->event = $this->schedule->job($callback);
         return $this;
     }
 
