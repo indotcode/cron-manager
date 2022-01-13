@@ -67,3 +67,14 @@ public function start_methods(CronManagerEvent $event)
     # Ход выполнения задания
 }
 ```
+
+## Скриншоты
+
+
+![Главная страница](https://github.com/indotcode/cron-manager/blob/main/screenshots/scrin1.png?raw=true "Орк")
+
+![Журнал ошибок](https://github.com/indotcode/cron-manager/blob/main/screenshots/scrin2.png?raw=true "Орк")
+
+![Редактирование задания](https://github.com/indotcode/cron-manager/blob/main/screenshots/scrin3.png?raw=true "Орк")
+
+![Страница глобальных настроек](https://github.com/indotcode/cron-manager/blob/main/screenshots/scrin4.png?raw=true "Орк")
