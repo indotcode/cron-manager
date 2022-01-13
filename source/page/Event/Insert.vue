@@ -118,7 +118,7 @@ export default {
             }
             data.periodicity_value = JSON.stringify(params)
             data.restrictions_days = values.restrictionsDay
-            data.de_active_attempts = values.de_active_attempts
+            data.de_active_attempts = values.de_active_attempts.length === 0 ? 0 : values.de_active_attempts
             if(values.timezone){
                 data.timezone = values.timezone;
             }

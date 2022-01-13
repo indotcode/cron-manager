@@ -8,7 +8,7 @@ use Indotcode\CronManager\Models\CronManagerEvent;
 
 class EventCombine
 {
-    public function launch(Schedule $schedule) : void
+    public static function launch(Schedule $schedule) : void
     {
         $eventCl = new Event();
         $events = CronManagerEvent::where('active', 1)->get();

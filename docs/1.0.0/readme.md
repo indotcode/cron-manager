@@ -18,10 +18,17 @@ Indotcode\CronManager\CronManagerServiceProvider::class;
 'CronManager' => Indotcode\CronManager\Facade::class,
 ```
 
+
 ### Импорт ресурсов
 ```text
 php artisan vendor:publish --provider="Indotcode\CronManager\CronManagerServiceProvider"
 ```
+**Добавить в метод в schedule в файле app/Console/Kernel.php строчку:**
+```php
+\Indotcode\CronManager\App\EventCombine::launch($schedule);
+```
+
+
 ### Добавить таблицы пакета в БД
 ```text
 php artisan migrate
