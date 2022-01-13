@@ -1,5 +1,11 @@
 # Документация (Релиз 1.0.0)
 
+## Установка Composer
+
+```text
+composer require indotcode/cron-manager
+```
+
 ## Подключения
 
 **Файл:** config/app.php массив providers 
@@ -12,21 +18,21 @@ Indotcode\CronManager\CronManagerServiceProvider::class;
 'CronManager' => Indotcode\CronManager\Facade::class,
 ```
 
-## Импорт ресурсов
+### Импорт ресурсов
 ```text
 php artisan vendor:publish --provider="Indotcode\CronManager\CronManagerServiceProvider"
 ```
-## Добавить таблицы пакета в БД
+### Добавить таблицы пакета в БД
 ```text
 php artisan migrate
 ```
-## Загрузим начальные данные настроек
+### Загрузим начальные данные настроек
 ```text
 php artisan db:seed --class="Indotcode\CronManager\Seeders\OptionSeeder"
 ```
 
 
-## Запуск планировщика на сервере
+### Запуск планировщика на сервере
 ```text
 # добавить записи cron на свой сервер
 * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
